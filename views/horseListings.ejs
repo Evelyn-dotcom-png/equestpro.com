@@ -17,3 +17,19 @@
     </li>
   <% }); %>
 </ul>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+  const socket = io();
+
+  // Listen for new horse data
+  socket.on('newHorse', (horse) => {
+    const horseList = document.querySelector('ul');
+    const horseItem = document.createElement('li');
+    horseItem.innerHTML = `
+      <h2>${horse.name}</h2>
+      <p>${horse.breed} - $${horse.price}</p>
+      <p>${horse.description}</p>
+    `;
+    horseList.appendChild(horseItem);
+  });
+</script>
