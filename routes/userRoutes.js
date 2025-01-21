@@ -20,7 +20,32 @@ router.post('/register', async (req, res) => {
     res.redirect('/users/register');
   }
 });
+const stripe = require('stripe')('your-stripe-secret-key');
+const YOUR_DOMAIN = 'http://localhost:3000';
 
+router.post('/checkout', async (req, res) => {
+  const { horseId } = req.body;
+  const horse = await Horse.findById(horseId);
+
+  const session = await stripe.checkout.sessions.create({
+    payment_method_types: ['card'],
+    line_items: [{
+      price_data: {
+        currency: 'usd',
+        product_data: {
+          name: horse.name,
+        },
+        unit_amount: horse.price * 100,
+      },
+      quantity: 1,
+    }],
+    mode: 'payment',
+    success_url: `${YOUR_DOMAIN}/success?session_id={CHECKOUT_SESSION_ID}`,
+    cancel_url: `${YOUR_DOMAIN}/cancel`,
+  });
+
+  res.redirect(303, session.url);
+});
 // Login Route
 router.get('/login', (req, res) => {
   res.render('login');
