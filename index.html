@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Horse Listings - EQuest</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/js/script.js"></script>
+</head>
+<body>
+  <header>
+    <h1>Welcome to EQuest - Your Dream Horse Awaits</h1>
+  </header>
+
+  <main>
+    <h2>Available Horses for Sale</h2>
+    
+    <!-- Button to simulate adding a new horse -->
+    <button onclick="addNewHorse('Blaze', 15000)">Add Blaze</button>
+
+    <ul id="horseList">
+      <% horses.forEach(horse => { %>
+        <li>
+          <span><%= horse.name %> - <%= horse.price %> USD</span>
+        </li>
+      <% }); %>
+    </ul>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 EQuest | All Rights Reserved</p>
+  </footer>
+</body>
+</html>
